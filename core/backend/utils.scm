@@ -1,9 +1,19 @@
 (define-module (utils)
-  #:export (strip-newline strip-quotes file-exists? ensure-directory))
+  #:export (strip-newline
+	    strip-quotes
+
+	    file-exists?
+	    ensure-directory
+
+	    date<=?
+	    date>=?
+	    date>?
+	    date<?))
 
 (use-modules (ice-9 regex)
 	     (ice-9 ftw)
-	     (srfi srfi-1))
+	     (srfi srfi-1)
+	     (srfi srfi-19))
 
 ;; (define (strip-newline s)
 ;;   (if (and (not (string-null? s))
@@ -26,4 +36,14 @@
   (if (file-exists? dir)
       #t
       (mkdir dir)))
+
+;; Helper functions for date comparison
+(define (date<=? date1 date2)
+  (time<=? (date->time-utc date1) (date->time-utc date2)))
+(define (date>=? date1 date2)
+  (time>=? (date->time-utc date1) (date->time-utc date2)))
+(define (date>? date1 date2)
+  (time>? (date->time-utc date1) (date->time-utc date2)))
+(define (date<? date1 date2)
+  (time<? (date->time-utc date1) (date->time-utc date2)))
 
